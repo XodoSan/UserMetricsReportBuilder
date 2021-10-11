@@ -8,7 +8,7 @@ namespace Infrustructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Metric> builder)
         {
-            builder.ToTable("Metrics")
+            builder.ToTable(typeof(Metric).ToString() + "s")
                 .HasKey(item => item.MetricId);
             builder.Property(item => item.MetricId).IsRequired()
                 .HasColumnName("MetricId");
