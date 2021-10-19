@@ -1,4 +1,6 @@
+using Domain.Repositories;
 using Infrastructure;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -22,6 +24,7 @@ namespace UserMetricsReportBuilderApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IMetricRepository, MetricRepository>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
