@@ -25,6 +25,7 @@ namespace UserMetricsReportBuilderApi
         {
             services.AddControllers();
             services.AddScoped<IMetricRepository, MetricRepository>();
+            services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
