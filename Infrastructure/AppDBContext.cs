@@ -1,4 +1,4 @@
-﻿using Infrustructure.Configurations;
+﻿using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
@@ -12,6 +12,7 @@ namespace Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new MetricConfiguration());
+            modelBuilder.ApplyConfiguration(new PropertySegmentConfiguration());
         }
     }
 }

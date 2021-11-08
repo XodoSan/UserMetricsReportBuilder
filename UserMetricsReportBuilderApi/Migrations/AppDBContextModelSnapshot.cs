@@ -47,7 +47,23 @@ namespace UserMetricsReportBuilderApi.Migrations
 
                     b.HasKey("MetricId");
 
-                    b.ToTable("Domain.Entities.Metrics");
+                    b.ToTable("Metric");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PropertySegment", b =>
+                {
+                    b.Property<int>("PropertyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("PropertyId")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("SegmentType")
+                        .HasColumnType("int");
+
+                    b.HasKey("PropertyId");
+
+                    b.ToTable("PropertySegment");
                 });
 #pragma warning restore 612, 618
         }

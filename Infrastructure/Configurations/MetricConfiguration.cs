@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrustructure.Configurations
+namespace Infrastructure.Configurations
 {
     public class MetricConfiguration : IEntityTypeConfiguration<Metric>
     {
         public void Configure(EntityTypeBuilder<Metric> builder)
         {
-            builder.ToTable(typeof(Metric).ToString() + "s")
+            builder.ToTable(nameof(Metric))
                 .HasKey(item => item.MetricId);
             builder.Property(item => item.MetricId).IsRequired()
                 .HasColumnName("MetricId");
