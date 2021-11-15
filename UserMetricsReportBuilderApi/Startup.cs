@@ -1,3 +1,4 @@
+using Application;
 using Domain.Repositories;
 using Infrastructure;
 using Infrastructure.Repositories;
@@ -26,16 +27,13 @@ namespace UserMetricsReportBuilderApi
             services.AddControllers();
             services.AddScoped<IMetricRepository, MetricRepository>();
             services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
+            services.AddScoped<IFilterEngine, FilterEngine>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
             services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString,
                 b => b.MigrationsAssembly("UserMetricsReportBuilderApi")));
-
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "Reports/dist";
-            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

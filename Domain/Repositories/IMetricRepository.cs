@@ -5,6 +5,6 @@ namespace Domain.Repositories
 {
     public interface IMetricRepository
     {
-        IReadOnlyList<Metric> getMetrics(int year, int metricType);
+        IReadOnlyList<Metric> GetMetrics(int year, int metricType);
     }
 }

@@ -10,7 +10,7 @@ namespace Infrastructure.Configurations
         {
             builder.ToTable(nameof(PropertySegment))
                 .HasKey(item => item.PropertyId);
-            builder.Property(item => item.PropertyId).IsRequired()
+            builder.Property(item => item.PropertyId).IsRequired();
             builder.Property(item => item.SegmentType).IsRequired();
         }
     }
