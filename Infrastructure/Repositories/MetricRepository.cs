@@ -16,7 +16,8 @@ namespace Infrastructure.Repositories
 
         public IReadOnlyList<Metric> GetMetrics(int year, int metricType)
         {
-            return _context.Set<Metric>().Where(item => (item.Timestamp.Year == year) && (item.Type == metricType))
+            return _context.Set<Metric>()
+                .Where(item => item.Timestamp.Year == year && item.Type == metricType)
                 .ToList();
         }
     }

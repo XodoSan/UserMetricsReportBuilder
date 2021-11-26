@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using System.Collections.Generic;
 
-namespace Application
+namespace Application.Engine
 {
     public interface IFilterEngine
     {

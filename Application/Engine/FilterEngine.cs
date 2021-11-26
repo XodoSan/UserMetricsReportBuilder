@@ -3,7 +3,7 @@ using Domain.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Application
+namespace Application.Engine
 {
     public class FilterEngine : IFilterEngine
     {
@@ -18,13 +18,14 @@ namespace Application
 
         public IReadOnlyList<Metric> GetMetricsByFilter(int year, int metricType, SegmentType segmentType)
         {
-            IEnumerable<int> bothIds = new List<int>();
             IReadOnlyList<Metric> metricResult = new List<Metric>();
             IReadOnlyList<Metric> metrics = _metricRepository.GetMetrics(year, metricType);
             IReadOnlyList<PropertySegment> propertySegments = _propertySegmentRepository.GetPropertySegments(segmentType);
 
-            bothIds = metrics.Select(a => a.ProviderId).Intersect(propertySegments.Select(a => a.PropertyId));
-            metricResult = (IReadOnlyList<Metric>)metrics.Where(item => bothIds.Contains(item.ProviderId));
+            var metricsById = metrics.Select(metric => metric.ProviderId);
+            var propertySegmentsById = propertySegments.Select(propertySegment => propertySegment.PropertyId);
+            var bothIds = metricsById.Intersect(propertySegmentsById).ToList();
+            metricResult = metrics.Where(item => bothIds.Contains(item.ProviderId)).ToList();
 
             return metricResult;
         }
