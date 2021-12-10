@@ -1,7 +1,6 @@
-﻿using Application.Generator;
-using Application.Engine;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Application;
 
 namespace UserMetricsReportBuilderApi.Controllers
 {
@@ -9,26 +8,24 @@ namespace UserMetricsReportBuilderApi.Controllers
     [ApiController]
     public class ExcelController : ControllerBase
     {
-        private readonly IFilterEngine _filterEngine;
-        private readonly IExcelGenerator _excelGenerator;
+        private readonly IExcelFileResultGen _excelFileResultGen;
 
         public ExcelController(
-            IFilterEngine filterEngine,
-            IExcelGenerator excelGenerator)
+            IExcelFileResultGen excelFileResultGen)
         {
-            _filterEngine = filterEngine;
-            _excelGenerator = excelGenerator;
+            _excelFileResultGen = excelFileResultGen;
         }
 
-        [HttpGet]
-        public void GenerateDoc()
+        [HttpGet("Reports/{year}/{metricType}/{segmentType}")]
+        public FileResult GenerateDoc(int year, int metricType, SegmentType segmentType)
         {
-            int year = 2003;
-            int metricType = 1;
-            var metrics = _filterEngine.GetMetricsByFilter(year, metricType, SegmentType.Top);
-            var reportExcel = _excelGenerator.DocFilling(metrics);
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            HttpContext.Response.ContentType = contentType;
+            HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 
-            System.IO.File.WriteAllBytes("C:/Users/Андрей/Downloads/" + "Report" + year + ".xlsx", reportExcel);
+            var resultFile = _excelFileResultGen.FileCreating(year, metricType, segmentType, contentType);
+
+            return resultFile;
         }
     }
 }
