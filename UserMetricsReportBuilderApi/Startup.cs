@@ -1,4 +1,5 @@
 using Application;
+using Application.Generator;
 using Application.Engine;
 using Domain.Repositories;
 using Infrastructure;
@@ -30,6 +31,7 @@ namespace UserMetricsReportBuilderApi
             services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
             services.AddScoped<IFilterEngine, FilterEngine>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IExcelGenerator, ExcelGenerator>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
