@@ -3,15 +3,17 @@ using Application.Engine;
 using Application.Generator;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace Infrastructure
 {
-    public class ExcelFileResultGen : IExcelFileResultGen
+    public class ExcelFileResultGenerator : IExcelFileResultGenerator
     {
         private readonly IFilterEngine _filterEngine;
         private readonly IExcelGenerator _excelGenerator;
 
-        public ExcelFileResultGen(
+        public ExcelFileResultGenerator(
             IFilterEngine filterEngine,
             IExcelGenerator excelGenerator)
         {
@@ -19,14 +21,14 @@ namespace Infrastructure
             _excelGenerator = excelGenerator;
         }
 
-        public FileResult FileCreating(int year, int metricType, SegmentType segmentType, string contentType)
+        public FileResult CreateFile(int year, int metricType, SegmentType segmentType, string contentType)
         {
-            var metrics = _filterEngine.GetMetricsByFilter(year, metricType, segmentType);
-            var reportExcel = _excelGenerator.DocFilling(metrics);
+            IReadOnlyList<Metric> metrics = _filterEngine.GetMetricsByFilter(year, metricType, segmentType);
+            byte[] reportExcel = _excelGenerator.Generate(metrics);
 
             var fileContentResult = new FileContentResult(reportExcel, contentType)
             {
-                FileDownloadName = "Report " + year + ".xls"
+                FileDownloadName = $"{DateTime.Now:d} Report" + ".xls"
             };
 
             return fileContentResult;

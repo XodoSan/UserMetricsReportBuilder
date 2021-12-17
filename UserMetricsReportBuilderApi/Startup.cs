@@ -6,7 +6,6 @@ using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +31,7 @@ namespace UserMetricsReportBuilderApi
             services.AddScoped<IFilterEngine, FilterEngine>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IExcelGenerator, ExcelGenerator>();
-            services.AddScoped<IExcelFileResultGen, ExcelFileResultGen>();
+            services.AddScoped<IExcelFileResultGenerator, ExcelFileResultGenerator>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
@@ -54,16 +53,6 @@ namespace UserMetricsReportBuilderApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "Reports";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
             });
         }
 

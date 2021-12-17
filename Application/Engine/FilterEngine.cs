@@ -18,14 +18,13 @@ namespace Application.Engine
 
         public IReadOnlyList<Metric> GetMetricsByFilter(int year, int metricType, SegmentType segmentType)
         {
-            IReadOnlyList<Metric> metricResult = new List<Metric>();
             IReadOnlyList<Metric> metrics = _metricRepository.GetMetrics(year, metricType);
             IReadOnlyList<PropertySegment> propertySegments = _propertySegmentRepository.GetPropertySegments(segmentType);
 
-            var metricsById = metrics.Select(metric => metric.ProviderId);
-            var propertySegmentsById = propertySegments.Select(propertySegment => propertySegment.PropertyId);
-            var bothIds = metricsById.Intersect(propertySegmentsById).ToList();
-            metricResult = metrics.Where(item => bothIds.Contains(item.ProviderId)).ToList();
+            IEnumerable<int> metricsById = metrics.Select(metric => metric.ProviderId);
+            IEnumerable<int> propertySegmentsById = propertySegments.Select(propertySegment => propertySegment.PropertyId);
+            List<int> bothIds = metricsById.Intersect(propertySegmentsById).ToList();
+            IReadOnlyList<Metric> metricResult = metrics.Where(item => bothIds.Contains(item.ProviderId)).ToList();
 
             return metricResult;
         }

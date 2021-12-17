@@ -5,6 +5,6 @@ namespace Application.Generator
 {
     public interface IExcelGenerator
     {
-        public byte[] DocFilling(IReadOnlyList<Metric> metrics);
+        public byte[] Generate(IReadOnlyList<Metric> metrics);
     }
 }

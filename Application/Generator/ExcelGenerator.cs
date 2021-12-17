@@ -6,10 +6,10 @@ namespace Application.Generator
 {
     public class ExcelGenerator : IExcelGenerator
     {
-        public byte[] DocFilling(IReadOnlyList<Metric> metrics)
+        public byte[] Generate(IReadOnlyList<Metric> metrics)
         {
             var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("Report");
+            ExcelWorksheet sheet = package.Workbook.Worksheets.Add("Report");
 
             sheet.Cells["A1"].Value = "Id:";
             sheet.Cells["B1"].Value = "Description:";
@@ -21,13 +21,13 @@ namespace Application.Generator
 
             for (int i = 0; i < metrics.Count; i++)
             {
-                sheet.Cells["A" + i + 2].Value = metrics[i].MetricId;
-                sheet.Cells["B" + i + 2].Value = metrics[i].Description;
-                sheet.Cells["C" + i + 2].Value = metrics[i].Timestamp;
-                sheet.Cells["D" + i + 2].Value = metrics[i].Type;
-                sheet.Cells["E" + i + 2].Value = metrics[i].IpAddress;
-                sheet.Cells["F" + i + 2].Value = metrics[i].ProviderId;
-                sheet.Cells["G" + i + 2].Value = metrics[i].UserName;
+                sheet.Cells["A" + (i + 2)].Value = metrics[i].MetricId;
+                sheet.Cells["B" + (i + 2)].Value = metrics[i].Description;
+                sheet.Cells["C" + (i + 2)].Value = metrics[i].Timestamp;
+                sheet.Cells["D" + (i + 2)].Value = metrics[i].Type;
+                sheet.Cells["E" + (i + 2)].Value = metrics[i].IpAddress;
+                sheet.Cells["F" + (i + 2)].Value = metrics[i].ProviderId;
+                sheet.Cells["G" + (i + 2)].Value = metrics[i].UserName;
             }
 
             return package.GetAsByteArray();

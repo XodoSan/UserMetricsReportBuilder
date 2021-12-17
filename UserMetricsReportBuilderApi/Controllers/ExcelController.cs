@@ -8,22 +8,22 @@ namespace UserMetricsReportBuilderApi.Controllers
     [ApiController]
     public class ExcelController : ControllerBase
     {
-        private readonly IExcelFileResultGen _excelFileResultGen;
+        private readonly IExcelFileResultGenerator _excelFileResultGen;
 
         public ExcelController(
-            IExcelFileResultGen excelFileResultGen)
+            IExcelFileResultGenerator excelFileResultGen)
         {
             _excelFileResultGen = excelFileResultGen;
         }
 
         [HttpGet("Reports/{year}/{metricType}/{segmentType}")]
-        public FileResult GenerateDoc(int year, int metricType, SegmentType segmentType)
+        public FileResult GenerateDoc([FromRoute] int year, [FromRoute] int metricType, [FromRoute] SegmentType segmentType)
         {
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             HttpContext.Response.ContentType = contentType;
             HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 
-            var resultFile = _excelFileResultGen.FileCreating(year, metricType, segmentType, contentType);
+            FileResult resultFile = _excelFileResultGen.CreateFile(year, metricType, segmentType, contentType);
 
             return resultFile;
         }
