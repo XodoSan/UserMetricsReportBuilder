@@ -14,10 +14,10 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public IReadOnlyList<Metric> GetMetrics(int year, int metricType)
+        public IReadOnlyList<Metric> GetMetrics(int year)
         {
             return _context.Set<Metric>()
-                .Where(item => item.Timestamp.Year == year && item.Type == metricType)
+                .Where(item => item.Timestamp.Year == year && item.Type == 5)
                 .ToList();
         }
     }

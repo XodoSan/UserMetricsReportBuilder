@@ -5,6 +5,7 @@
         Top = 1,
         Vip = 2,
         Medium = 3,
-        None = 4
+        None = 4,
+        TL = 5
    }
 }

@@ -21,10 +21,10 @@ namespace Infrastructure
             _excelGenerator = excelGenerator;
         }
 
-        public FileResult CreateFile(int year, int metricType, SegmentType segmentType, string contentType)
+        public FileResult CreateFile(int year, SegmentType segmentType, string contentType)
         {
-            IReadOnlyList<Metric> metrics = _filterEngine.GetMetricsByFilter(year, metricType, segmentType);
-            byte[] reportExcel = _excelGenerator.Generate(metrics);
+            IReadOnlyList<ExcelEntity> excelEntities = _filterEngine.GetMetricsByFilter(year, segmentType);
+            byte[] reportExcel = _excelGenerator.Generate(excelEntities);
 
             var fileContentResult = new FileContentResult(reportExcel, contentType)
             {

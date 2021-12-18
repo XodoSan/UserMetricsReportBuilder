@@ -5,6 +5,6 @@ namespace Application
 {
     public interface IExcelFileResultGenerator
     {
-        public FileResult CreateFile(int year, int metricType, SegmentType segmentType, string contentType);
+        public FileResult CreateFile(int year, SegmentType segmentType, string contentType);
     }
 }
