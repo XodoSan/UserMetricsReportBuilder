@@ -28,16 +28,18 @@ namespace Application.Engine
             List<int> bothIds = metricsById.Intersect(propertySegmentsById).ToList();
             IReadOnlyList<Metric> metricResult = metrics.Where(item => bothIds.Contains(item.ProviderId)).ToList();
 
-            IReadOnlyList<ExcelEntity> groupedData = metricResult.GroupBy(metric => metric.Description)
-                .Where(description => description.Count() > 1)
-                .Select(y => new ExcelEntity { Description = y.Key, Counter = y.Count() })
+            IReadOnlyList<ExcelEntity> groupedData = metricResult.GroupBy(metric => metric.Description
+                .Substring(0, metric.Description
+                .IndexOf(' ', metric.Description.IndexOf(' ') + 1)))
+                .Where(description => description.Count() > 0)
+                .Select(item => new ExcelEntity { Description = item.Key, Counter = item.Count() })
+                .OrderByDescending(count => count.Counter)
                 .ToList();
 
             return groupedData;
         }
     }
 }
-
 
 public class ExcelEntity
 {
