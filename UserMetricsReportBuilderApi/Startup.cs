@@ -1,9 +1,10 @@
 using Application;
-using Application.Generator;
 using Application.Engine;
 using Domain.Repositories;
 using Infrastructure;
+using Infrastructure.Generator;
 using Infrastructure.Repositories;
+using Infrastructure.ResultGeneration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +30,8 @@ namespace UserMetricsReportBuilderApi
             services.AddScoped<IMetricRepository, MetricRepository>();
             services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
             services.AddScoped<IFilterEngine, FilterEngine>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IExcelGenerator, ExcelGenerator>();
-            services.AddScoped<IExcelFileResultGenerator, ExcelFileResultGenerator>();
+            services.AddScoped<IFileResultGenerator, ExcelFileResultGenerator>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");

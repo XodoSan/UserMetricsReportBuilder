@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Application;
 
 namespace UserMetricsReportBuilderApi.Controllers
 {
@@ -8,12 +8,11 @@ namespace UserMetricsReportBuilderApi.Controllers
     [ApiController]
     public class ExcelController : ControllerBase
     {
-        private readonly IExcelFileResultGenerator _excelFileResultGen;
+        private readonly IFileResultGenerator _fileResultGenerator;
 
-        public ExcelController(
-            IExcelFileResultGenerator excelFileResultGen)
+        public ExcelController(IFileResultGenerator excelFileResultGen)
         {
-            _excelFileResultGen = excelFileResultGen;
+            _fileResultGenerator = excelFileResultGen;
         }
 
         [HttpGet("Reports/{year}/{segmentType}")]
@@ -23,7 +22,7 @@ namespace UserMetricsReportBuilderApi.Controllers
             HttpContext.Response.ContentType = contentType;
             HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 
-            FileResult resultFile = _excelFileResultGen.CreateFile(year, segmentType, contentType);
+            FileResult resultFile = _fileResultGenerator.CreateFile(year, segmentType, contentType);
 
             return resultFile;
         }

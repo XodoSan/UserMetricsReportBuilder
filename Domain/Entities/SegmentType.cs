@@ -4,8 +4,9 @@
    {
         Top = 1,
         Vip = 2,
-        Medium = 3,
-        None = 4,
-        TL = 5
+        Middle = 3,
+        Pre_Vip = 4,
+        Free = 5,
+        Default = 6
    }
 }
