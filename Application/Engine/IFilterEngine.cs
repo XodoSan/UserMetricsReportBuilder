@@ -5,6 +5,6 @@ namespace Application.Engine
 {
     public interface IFilterEngine
     {
-        IReadOnlyList<ExcelEntity> GetMetricsByFilter(int year, SegmentType segmentType);
+        Dictionary<string, int> GetMetricsByFilter(int year, SegmentType segmentType);
     }
 }
