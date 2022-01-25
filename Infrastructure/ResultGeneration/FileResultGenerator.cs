@@ -9,12 +9,12 @@ using System.Linq;
 
 namespace Infrastructure.ResultGeneration
 {
-    public class ExcelFileResultGenerator : IFileResultGenerator
+    public class FileResultGenerator : IFileResultGenerator
     {
         private readonly IFilterEngine _filterEngine;
         private readonly IExcelGenerator _excelGenerator;
 
-        public ExcelFileResultGenerator(
+        public FileResultGenerator(
             IFilterEngine filterEngine,
             IExcelGenerator excelGenerator)
         {

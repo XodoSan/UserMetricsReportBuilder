@@ -31,7 +31,7 @@ namespace UserMetricsReportBuilderApi
             services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
             services.AddScoped<IFilterEngine, FilterEngine>();
             services.AddScoped<IExcelGenerator, ExcelGenerator>();
-            services.AddScoped<IFileResultGenerator, ExcelFileResultGenerator>();
+            services.AddScoped<IFileResultGenerator, FileResultGenerator>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
