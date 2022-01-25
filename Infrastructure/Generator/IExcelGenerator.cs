@@ -1,7 +1,6 @@
-﻿using Domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Application.Generator
+namespace Infrastructure.Generator
 {
     public interface IExcelGenerator
     {

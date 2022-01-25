@@ -1,15 +1,15 @@
 ﻿using Application;
 using Application.Engine;
-using Application.Generator;
 using Domain.Entities;
+using Infrastructure.Generator;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure
+namespace Infrastructure.ResultGeneration
 {
-    public class ExcelFileResultGenerator : IExcelFileResultGenerator
+    public class ExcelFileResultGenerator : IFileResultGenerator
     {
         private readonly IFilterEngine _filterEngine;
         private readonly IExcelGenerator _excelGenerator;
@@ -33,7 +33,7 @@ namespace Infrastructure
 
             var fileContentResult = new FileContentResult(reportExcel, contentType)
             {
-                FileDownloadName = $"{DateTime.Now:d} Report" + ".xls"
+                FileDownloadName = $"{DateTime.Now:d} Report" + ".xlsx"
             };
 
             return fileContentResult;

@@ -37,7 +37,7 @@ namespace Application.Engine
             return result;
         }
 
-        private Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> metricResult) 
+        private Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> metricResult)
         {
             Dictionary<string, int> result = metricResult
                 .GroupBy(metric => metric.Description.Contains("Statistic") ? metric.Description.Split(" ")[1] : metric.Description)

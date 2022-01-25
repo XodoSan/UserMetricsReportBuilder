@@ -2,9 +2,7 @@ using Application;
 using Application.Engine;
 using Domain.Repositories;
 using Infrastructure;
-using Infrastructure.Generator;
 using Infrastructure.Repositories;
-using Infrastructure.ResultGeneration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Infrastructure.Generator;
+using Infrastructure.ResultGeneration;
 
 namespace UserMetricsReportBuilderApi
 {

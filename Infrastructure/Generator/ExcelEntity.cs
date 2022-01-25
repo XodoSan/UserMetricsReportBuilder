@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities
+﻿namespace Infrastructure.Generator
 {
     public class ExcelEntity
     {
