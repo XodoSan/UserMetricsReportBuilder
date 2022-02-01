@@ -16,17 +16,45 @@ namespace Application.Engine
             _propertySegmentRepository = propertySegmentRepository;
         }
 
-        public IReadOnlyList<Metric> GetMetricsByFilter(int year, int metricType, SegmentType segmentType)
+        public Dictionary<string, int> GetMetricsByFilter(int year, SegmentType segmentType)
         {
-            IReadOnlyList<Metric> metrics = _metricRepository.GetMetrics(year, metricType);
+            IReadOnlyList<Metric> metrics = _metricRepository.GetMetrics(year);
             IReadOnlyList<PropertySegment> propertySegments = _propertySegmentRepository.GetPropertySegments(segmentType);
 
-            IEnumerable<int> metricsById = metrics.Select(metric => metric.ProviderId);
+            IEnumerable<int> metricsById = FilterNotRealCustomerMetrics(metrics);
             IEnumerable<int> propertySegmentsById = propertySegments.Select(propertySegment => propertySegment.PropertyId);
-            List<int> bothIds = metricsById.Intersect(propertySegmentsById).ToList();
-            IReadOnlyList<Metric> metricResult = metrics.Where(item => bothIds.Contains(item.ProviderId)).ToList();
 
-            return metricResult;
+            List<int> bothIds = metricsById
+                .Intersect(propertySegmentsById)
+                .ToList();
+
+            IReadOnlyList<Metric> metricResult = metrics
+                .Where(item => bothIds.Contains(item.ProviderId))
+                .ToList();
+
+            Dictionary<string, int> result = GetMetricCountByDescription(metricResult);
+
+            return result;
+        }
+
+        private Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> metricResult)
+        {
+            Dictionary<string, int> result = metricResult
+                .GroupBy(metric => metric.Description.Contains("Statistic") ? metric.Description.Split(" ")[1] : metric.Description)
+                .ToDictionary(item => item.Key, item => item.Count());
+
+            return result;
+        }
+
+        private IEnumerable<int> FilterNotRealCustomerMetrics(IReadOnlyList<Metric> metrics)
+        {
+            const string TechnicalIp = "91.210.252.226";
+
+            IEnumerable<int> metricsById = metrics
+                .Where(metric => metric.IpAddress != TechnicalIp)
+                .Select(metric => metric.ProviderId);
+
+            return metricsById;
         }
     }
 }

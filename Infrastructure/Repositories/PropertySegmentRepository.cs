@@ -16,7 +16,8 @@ namespace Infrastructure.Repositories
 
         public List<PropertySegment> GetPropertySegments(SegmentType segment)
         {
-            return _context.Set<PropertySegment>().Where(item => item.SegmentType == segment)
+            return _context.Set<PropertySegment>()
+                .Where(item => item.SegmentType == segment)
                 .ToList();
         }
     }

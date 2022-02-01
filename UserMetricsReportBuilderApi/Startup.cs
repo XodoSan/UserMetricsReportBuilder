@@ -1,5 +1,4 @@
 using Application;
-using Application.Generator;
 using Application.Engine;
 using Domain.Repositories;
 using Infrastructure;
@@ -11,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Infrastructure.Generator;
+using Infrastructure.ResultGeneration;
 
 namespace UserMetricsReportBuilderApi
 {
@@ -29,9 +30,8 @@ namespace UserMetricsReportBuilderApi
             services.AddScoped<IMetricRepository, MetricRepository>();
             services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
             services.AddScoped<IFilterEngine, FilterEngine>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IExcelGenerator, ExcelGenerator>();
-            services.AddScoped<IExcelFileResultGenerator, ExcelFileResultGenerator>();
+            services.AddScoped<IFileResultGenerator, FileResultGenerator>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");
