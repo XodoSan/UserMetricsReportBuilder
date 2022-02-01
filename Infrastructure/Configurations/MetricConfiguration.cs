@@ -10,8 +10,7 @@ namespace Infrastructure.Configurations
         {
             builder.ToTable(nameof(Metric))
                 .HasKey(item => item.MetricId);
-            builder.Property(item => item.MetricId).IsRequired()
-                .HasColumnName("MetricId");
+            builder.Property(item => item.MetricId).IsRequired();
             builder.Property(item => item.ProviderId).IsRequired();
             builder.Property(item => item.Type).IsRequired();
             builder.Property(item => item.Timestamp);

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using Infrastructure.Generator;
 using Infrastructure.ResultGeneration;
+using Application.MetricServices;
 
 namespace UserMetricsReportBuilderApi
 {
@@ -32,6 +33,7 @@ namespace UserMetricsReportBuilderApi
             services.AddScoped<IFilterEngine, FilterEngine>();
             services.AddScoped<IExcelGenerator, ExcelGenerator>();
             services.AddScoped<IFileResultGenerator, FileResultGenerator>();
+            services.AddScoped<IMetricService, MetricService>();
 
             IConfiguration config = GetConfig();
             string connectionString = config.GetConnectionString("Reports");

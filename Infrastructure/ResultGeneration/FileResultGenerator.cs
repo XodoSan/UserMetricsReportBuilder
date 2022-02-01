@@ -22,9 +22,11 @@ namespace Infrastructure.ResultGeneration
             _excelGenerator = excelGenerator;
         }
 
-        public FileResult CreateFile(int year, SegmentType segmentType, string contentType)
+        public FileResult CreateFile(int year, AllocationType allocationType, string contentType)
         {
-            Dictionary<string, int> aggreagatedMetrics = _filterEngine.GetMetricsByFilter(year, segmentType);
+            IReadOnlyList<Metric> metricResult = _filterEngine.GetMetricsByFilter(year, allocationType);
+            Dictionary<string, int> aggreagatedMetrics = _filterEngine.GetMetricCountByDescription(metricResult);
+
             List<ExcelEntity> excelEntities = aggreagatedMetrics
                 .Select(item => new ExcelEntity(item.Key, item.Value))
                 .OrderByDescending(item => item.Counter)

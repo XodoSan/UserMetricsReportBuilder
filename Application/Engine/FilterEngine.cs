@@ -16,13 +16,13 @@ namespace Application.Engine
             _propertySegmentRepository = propertySegmentRepository;
         }
 
-        public Dictionary<string, int> GetMetricsByFilter(int year, SegmentType segmentType)
+        public IReadOnlyList<Metric> GetMetricsByFilter(int year, AllocationType allocationType)
         {
             IReadOnlyList<Metric> metrics = _metricRepository.GetMetrics(year);
-            IReadOnlyList<PropertySegment> propertySegments = _propertySegmentRepository.GetPropertySegments(segmentType);
+            IReadOnlyList<AllocationSegment> propertySegments = _propertySegmentRepository.GetPropertySegments(allocationType);
 
             IEnumerable<int> metricsById = FilterNotRealCustomerMetrics(metrics);
-            IEnumerable<int> propertySegmentsById = propertySegments.Select(propertySegment => propertySegment.PropertyId);
+            IEnumerable<int> propertySegmentsById = propertySegments.Select(propertySegment => propertySegment.ProviderId);
 
             List<int> bothIds = metricsById
                 .Intersect(propertySegmentsById)
@@ -32,12 +32,10 @@ namespace Application.Engine
                 .Where(item => bothIds.Contains(item.ProviderId))
                 .ToList();
 
-            Dictionary<string, int> result = GetMetricCountByDescription(metricResult);
-
-            return result;
+            return metricResult;
         }
 
-        private Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> metricResult)
+        public Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> metricResult)
         {
             Dictionary<string, int> result = metricResult
                 .GroupBy(metric => metric.Description.Contains("Statistic") ? metric.Description.Split(" ")[1] : metric.Description)

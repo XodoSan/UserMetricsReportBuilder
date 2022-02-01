@@ -5,6 +5,7 @@ namespace Application.Engine
 {
     public interface IFilterEngine
     {
-        Dictionary<string, int> GetMetricsByFilter(int year, SegmentType segmentType);
+        IReadOnlyList<Metric> GetMetricsByFilter(int year, AllocationType segmentType);
+        Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> merics);
     }
 }

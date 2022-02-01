@@ -42,6 +42,8 @@ namespace Infrastructure.Generator
                 "Analyser" => "Клик по задаче",
                 "Extranet" => "Бронирование из Extranet",
                 "ConversionDashboard" => "Статистика по конверсиям",
+                "ShowMoreFeedbacks" => "Показать больше отзывов",
+                "Instruction" => "Инструкция",
                 _ => throw new ArgumentException("Invalid description"),
             };
         }

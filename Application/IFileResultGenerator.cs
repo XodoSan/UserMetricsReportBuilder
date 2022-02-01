@@ -5,6 +5,6 @@ namespace Application
 {
     public interface IFileResultGenerator
     {
-        public FileResult CreateFile(int year, SegmentType segmentType, string contentType);
+        public FileResult CreateFile(int year, AllocationType allocationType, string contentType);
     }
 }

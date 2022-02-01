@@ -5,6 +5,6 @@ namespace Domain.Repositories
 {
     public interface IPropertySegmentRepository
     {
-        List<PropertySegment> GetPropertySegments(SegmentType segment);
+        List<AllocationSegment> GetPropertySegments(AllocationType allocationType);
     }
 }
