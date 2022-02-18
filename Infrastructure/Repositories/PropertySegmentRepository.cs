@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +15,10 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public List<PropertySegment> GetPropertySegments(SegmentType segment)
+        public List<AllocationSegment> GetPropertySegments(AllocationType segment)
         {
-            return _context.Set<PropertySegment>()
-                .Where(item => item.SegmentType == segment)
+            return _context.Set<AllocationSegment>()
+                .Where(item => item.HotelKindId == (char)segment)
                 .ToList();
         }
     }
