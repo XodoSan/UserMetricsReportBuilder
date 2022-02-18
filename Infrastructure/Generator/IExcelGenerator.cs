@@ -4,6 +4,6 @@ namespace Infrastructure.Generator
 {
     public interface IExcelGenerator
     {
-        public byte[] Generate(IReadOnlyList<ExcelEntity> excelEntity);
+        public byte[] Generate(IReadOnlyList<ExcelEntity> excelEntities);
     }
 }
