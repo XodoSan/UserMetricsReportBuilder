@@ -24,23 +24,31 @@ namespace Infrastructure.ResultGeneration
 
         public FileResult CreateFile(int year, IEnumerable<ProviderType> providerTypes, string contentType)
         {
-            IReadOnlyList<MetricByDay> metricsByDays = _metricService.GetMetricsByDay(year, providerTypes);
+            IReadOnlyList<MetricByDay> metricsByDays = _metricService.GetMetricsByDays(year, providerTypes);
             List<MetricByDay> resultData = metricsByDays.Where(metricByDay => metricByDay.MetricCounts.Count > 0).ToList();
 
             List<ExcelEntity> excelEntities = new List<ExcelEntity>();
-            excelEntities.Add(new ExcelEntity(resultData[0].MetricCounts[0].Description, 0));
+            if (resultData.Count() > 0)
+            {
+                excelEntities.Add(new ExcelEntity(resultData[0].MetricCounts[0].Description, 0));
+            }
 
             for (int i = 0; i < resultData.Count(); i++)
             {
                 for (int j = 0; j < resultData[i].MetricCounts.Count(); j++)
                 {
-                    if (resultData[i].MetricCounts[j].Description != excelEntities[0].Description)
+                    if (!excelEntities
+                        .Select(item => item.Description)
+                        .Contains(resultData[i].MetricCounts[j].Description))
                     {
                         excelEntities.Add(new ExcelEntity(resultData[i].MetricCounts[j].Description, resultData[i].MetricCounts[j].Counter));
                     }
-                    else if (resultData[i].MetricCounts[j].Description == excelEntities[0].Description)
+                    else
                     {
-                        excelEntities[0].Counter += resultData[i].MetricCounts[j].Counter;
+                        List<ExcelEntity> thisExcelEntity = new();
+                        thisExcelEntity = excelEntities.Where(item => item.Description == resultData[i].MetricCounts[j].Description).ToList();
+                        int thisExcelEntityIndex = excelEntities.IndexOf(thisExcelEntity[0]);
+                        excelEntities[thisExcelEntityIndex].Counter += resultData[i].MetricCounts[j].Counter;
                     }
                 }
             }
