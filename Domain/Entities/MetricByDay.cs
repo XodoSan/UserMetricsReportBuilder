@@ -5,13 +5,13 @@ namespace Domain.Entities
 {
     public class MetricByDay
     {
-        public MetricByDay(DateTime dateTime, Dictionary<string, int> metrics)
+        public MetricByDay(DateTime dateTime, List<MetricCount> metricCounts)
         {
             Timestamp = dateTime;
-            Metrics = metrics;
+            MetricCounts = metricCounts;
         }
 
         public DateTime Timestamp { get; private set; }
-        public Dictionary<string, int> Metrics { get; private set; }
+        public List<MetricCount> MetricCounts { get; private set; }
     }
 }

@@ -9,6 +9,6 @@
         }
 
         public string Description { get; private set; }
-        public int Counter { get; private set; }
+        public int Counter { get; set; }
     }
 }

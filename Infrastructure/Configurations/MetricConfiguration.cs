@@ -8,8 +8,7 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Metric> builder)
         {
-            builder.ToTable(nameof(Metric))
-                .HasKey(item => item.MetricId);
+            builder.ToTable(nameof(Metric)).HasKey(item => item.MetricId);
             builder.Property(item => item.MetricId).IsRequired();
             builder.Property(item => item.ProviderId).IsRequired();
             builder.Property(item => item.Type).IsRequired();

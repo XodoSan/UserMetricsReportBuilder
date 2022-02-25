@@ -29,7 +29,7 @@ namespace UserMetricsReportBuilderApi
         {
             services.AddControllers();
             services.AddScoped<IMetricRepository, MetricRepository>();
-            services.AddScoped<IPropertySegmentRepository, PropertySegmentRepository>();
+            services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<IFilterEngine, FilterEngine>();
             services.AddScoped<IExcelGenerator, ExcelGenerator>();
             services.AddScoped<IFileResultGenerator, FileResultGenerator>();

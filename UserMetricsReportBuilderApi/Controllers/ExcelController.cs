@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Application;
 using System.Collections.Generic;
-using Application.MetricServices;
 
 namespace UserMetricsReportBuilderApi.Controllers
 {
@@ -11,34 +10,24 @@ namespace UserMetricsReportBuilderApi.Controllers
     public class ExcelController : ControllerBase
     {
         private readonly IFileResultGenerator _excelFileResultGen;
-        private readonly IMetricService _metricService;
 
-        public ExcelController(
-            IFileResultGenerator excelFileResultGen,
-            IMetricService metricService)
+        public ExcelController(IFileResultGenerator excelFileResultGen)
         {
             _excelFileResultGen = excelFileResultGen;
-            _metricService = metricService;
         }
 
-        [HttpGet("CreateDoc/{year}/{allocationType}")]
-        public FileResult GenerateDoc([FromRoute] int year, [FromRoute] AllocationType allocationType)
+        [HttpGet("Reports/{year}/{provider}")]
+        public FileResult GenerateDoc([FromRoute] int year, [FromRoute] IEnumerable<ProviderType> providerTypes)
         {
+            var providers = new List<ProviderType> { ProviderType.HotelAlt };
+
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             HttpContext.Response.ContentType = contentType;
             HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 
-            FileResult resultFile = _excelFileResultGen.CreateFile(year, allocationType, contentType);
+            FileResult resultFile = _excelFileResultGen.CreateFile(year, providers, contentType);
 
             return resultFile;
-        }
-
-        [HttpGet("GetData/{year}/{allocationType}")]
-        public List<MetricByDay> GetMetricsByDay([FromRoute] int year, [FromRoute] AllocationType allocationType)
-        {
-            List<MetricByDay> resultData = _metricService.GetMetricsByDay(year, allocationType);
-
-            return resultData;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class AllocationSegment
+    public class Provider
     {
         public int ProviderId { get; }
         public string Name { get; protected set; }
@@ -13,7 +13,7 @@ namespace Domain.Entities
         public string BookingFormUrl { get; protected set; }
         public string PmsIntegrated { get; protected set; }
         public string Stars { get; protected set; }
-        public char HotelKindId { get; protected set; }
+        public ProviderType ProviderType { get; protected set; }
         public string CurrencyId { get; protected set; }
         public int CountryId { get; protected set; }
         public string RegionId { get; protected set; }

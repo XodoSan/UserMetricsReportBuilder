@@ -5,6 +5,6 @@ namespace Application.MetricServices
 {
     public interface IMetricService
     {
-        List<MetricByDay> GetMetricsByDay(int year, AllocationType segmentType);
+        IReadOnlyList<MetricByDay> GetMetricsByDay(int year, IEnumerable<ProviderType> providerTypes);
     }
 }
