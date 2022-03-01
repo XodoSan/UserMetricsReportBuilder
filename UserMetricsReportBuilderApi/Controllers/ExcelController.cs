@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Application;
 using System.Collections.Generic;
+using System;
 
 namespace UserMetricsReportBuilderApi.Controllers
 {
@@ -16,16 +17,22 @@ namespace UserMetricsReportBuilderApi.Controllers
             _excelFileResultGen = excelFileResultGen;
         }
 
-        [HttpGet("Reports/{year}/{provider}")]
-        public FileResult GenerateDoc([FromRoute] int year, [FromRoute] IEnumerable<ProviderType> providerTypes)
+        [HttpGet("Reports/{year}/{providers}")] 
+        public FileResult GenerateDoc([FromRoute] int year, [FromRoute] string providers)
         {
-            var providers = new List<ProviderType> { ProviderType.HotelAlt };
+            List<ProviderType> providerTypes = new();
+            string[] strings = providers.Split('&');
+
+            for (int i = 0; i < strings.Length; i++)
+            {
+                providerTypes.Add((ProviderType)Enum.ToObject(typeof(ProviderType), Int32.Parse(strings[i])));
+            }
 
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             HttpContext.Response.ContentType = contentType;
             HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 
-            FileResult resultFile = _excelFileResultGen.CreateFile(year, providers, contentType);
+            FileResult resultFile = _excelFileResultGen.CreateFile(year, providerTypes, contentType);
 
             return resultFile;
         }

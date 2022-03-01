@@ -9,13 +9,12 @@ namespace Application.MetricServices
     {
         private readonly IFilterEngine _filterEngine;
 
-        public MetricService(
-            IFilterEngine filterEngine)
+        public MetricService(IFilterEngine filterEngine)
         {
             _filterEngine = filterEngine;
         }
 
-        public IReadOnlyList<MetricByDay> GetMetricsByDay(int year, IEnumerable<ProviderType> providerTypes)
+        public IReadOnlyList<MetricByDay> GetMetricsByDays(int year, IEnumerable<ProviderType> providerTypes)
         {
             List<MetricByDay> result = new List<MetricByDay>();
 

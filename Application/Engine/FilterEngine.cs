@@ -46,8 +46,9 @@ namespace Application.Engine
         private Dictionary<string, int> GetMetricCountByDescription(IReadOnlyList<Metric> metricResult)
         {
             Dictionary<string, int> result = metricResult
-                .GroupBy(metric => metric.Description.Contains("Statistic") ? metric.Description.Split(" ")[1] : metric.Description)
-                .ToDictionary(item => item.Key, item => item.Count());
+                .GroupBy(metric => metric.Description.Contains("Statistic") 
+                ? metric.Description.Split(" ")[1] : metric.Description)
+                .ToDictionary(item => item.Key.Trim(':'), item => item.Count());
 
             return result;
         }

@@ -1,6 +1,7 @@
 ﻿using Application.MetricServices;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace UserMetricsReportBuilderApi.Controllers
@@ -16,11 +17,18 @@ namespace UserMetricsReportBuilderApi.Controllers
             _metricService = metricService;
         }
 
-        [HttpGet("GetData/{year}/{provider}")]
-        public IReadOnlyList<MetricByDay> GetMetricsByYear([FromRoute] int year, [FromRoute] IEnumerable<ProviderType> providerTypes)
+        [HttpGet("GetData/{year}/{providers}")]
+        public IReadOnlyList<MetricByDay> GetMetricsByYear([FromRoute] int year, [FromRoute] string providers)
         {
-            var providers = new List<ProviderType> { ProviderType.HotelAlt };
-            IReadOnlyList<MetricByDay> resultData = _metricService.GetMetricsByDay(year, providers);
+            List<ProviderType> providerTypes = new();
+            string[] strings = providers.Split('&');
+
+            for (int i = 0; i < strings.Length; i++)
+            {
+                providerTypes.Add((ProviderType)Enum.ToObject(typeof(ProviderType), Int32.Parse(strings[i])));
+            }
+
+            IReadOnlyList<MetricByDay> resultData = _metricService.GetMetricsByDays(year, providerTypes);
 
             return resultData;
         }
